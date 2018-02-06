@@ -187,10 +187,10 @@ image(bg,0,0,windowWidth, windowHeight);
 
 function cam1() {
 	 left = createButton('left');
-	  left.touchStarted(left1);
+	  left.touchEnded(left1);
     left.class('left');
 	 right = createButton('right');
-	  right.touchStarted(right1);
+	  right.touchEnded(right1);
     right.class('right');
 	backttocam = createButton('backtocam');
   backttocam.position(-10000,0);
