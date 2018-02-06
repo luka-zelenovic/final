@@ -19,7 +19,9 @@ Germoscope is first of all a simplified, digital simulation of a microscope. We 
 ![Graf1 ](/assets/graf1.png)
 
 **References**
+
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
+
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
 
 https://www.mnn.com/health/healthy-spaces/stories/disinfectants-a-guide-to-killing-germs-the-right-way
