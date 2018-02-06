@@ -1,4 +1,5 @@
-
+// GERMOSCOPE
+// The mobile phone is your lens to the microworld
 var tool= '';
 var capture;
 var camon = false;
@@ -15,6 +16,8 @@ var lala;
 var logo;
 var soaptxt;
 
+var imgA, imgB, imgC, imgD;
+
 var germin;
 var w = 0,
     h = 0;
@@ -30,6 +33,11 @@ var swarm
 var angle = 0
 
 function preload() {
+imgA = loadImage("assets/spritea.png");
+  imgB = loadImage("assets/spritef.png");
+  imgC = loadImage("assets/spriteb.png");
+  imgD = loadImage("assets/spritep.png");
+	
 	logo = loadImage('assets/top.png');
   	bg = loadImage('assets/bg.png');
 	aboutus = loadImage('assets/aboutus.png');
@@ -55,6 +63,7 @@ function setup() {
   capture.size(w, h);
   capture.hide();
 
+  // Augmented reality stuff
   raster = new NyARRgbRaster_Canvas2D(canvas);
   param = new FLARParam(canvas.width, canvas.height);
   pmat = mat4.identity();
@@ -64,22 +73,21 @@ function setup() {
   detector.setContinueMode(true);
 
 
-  wsg =  w
-  hsg = h
-  sw = createGraphics(wsg,hsg, P2D)
-  // sw.translate(wsg/4,hsg/4, 0)
+  //New layer to draw and move the germs on top of the video capture
+  sw = createGraphics(w, h, P2D)
   sw.noStroke()
 
+  //Object which contains and manage the germs and the cleaning
   swarm = new Swarm()
+  //Instatiate each germ according to his type
   swarm.populate()
-  frameRate(10)
-
-  // set options to prevent default behaviors for swipe, pinch, etc
+  frameRate(20);
+  
   var options = {
     preventDefault: true
   };
 
-  // document.body registers gestures anywhere on the page
+
 
    image(bg,0,0,windowWidth, windowHeight);
 	image(logo,width*.35, height/50, width*.3, height/5);
@@ -105,11 +113,10 @@ function draw() {
 
   myDetector()
 
-  /**webgl snippet at the bottom**/
+
 
   push()
   swarm.show(0,0, 0.5, 1, true)
-  // image(sw)
   pop()
 
   angle += 0.01;
@@ -324,39 +331,52 @@ function left1() {
  }
 
 function Swarm() {
-  this.nGerms = 100
-  this.germs = []
-  this.dimType = [10, 15, 24, 20]
+  this.nGerms = 100 //Total number of germs
+  this.germs = [] //Iterable collection of germs objects
+  this.dimUnit = windowHeight/30 //responsive germ dimension
+  //Different dimension for different types
+  this.dimType = [this.dimUnit*0.8, this.dimUnit*1.5, this.dimUnit*2, this.dimUnit*1.2]
+  //Germs respawn when killed becuase they replicate, and we can re-use the same objects
   this.respTime = 100
-  this.boundW = w*0.45
-  this.boundH = h*0.45
+  //Random spawning inside the screen
+  this.boundW = windowWidth*0.45
+  this.boundH = windowHeight*0.45
 
   this.populate = function() {
+    //Based on real data we calculate the distribution
+    //of the four main families, instatiate the objects and add them to germs[]
+    //Each Germ has a random position, a type, a random speed, a live/dead boolean statem and a lifetime counter
+
     //Actino
+    //45% average presence in indoor spaces
     var ntypeA = this.nGerms*0.45
     for (var i = 0; i < ntypeA; i++) {
-      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"a", "speed":5, "dead":false, "respawn":this.respTime})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"a", "speed":2, "dead":false, "respawn":this.respTime})
     }
     //Firmic
+    //15% average presence in indoor spaces
     var ntypeB = this.nGerms*0.15
     for (var i = 0; i < ntypeB; i++) {
-      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"b", "speed":5, "dead":false, "respawn":this.respTime})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"b", "speed":3, "dead":false, "respawn":this.respTime})
     }
     //Bacter
-    var ntypeC = this.nGerms*0.02
+    //2% average presence in indoor spaces
+    var ntypeC = this.nGerms*0.05
     for (var i = 0; i < ntypeC; i++) {
-      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"c", "speed":5, "dead":false, "respawn":this.respTime})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"c", "speed":1, "dead":false, "respawn":this.respTime})
     }
     //Proteo
+    //38% average presence in indoor spaces
     var ntypeD = this.nGerms*0.38
-    for (var i = 0; i < ntypeD; i++) {
-      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"d", "speed":5, "dead":false, "respawn":this.respTime})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"d", "speed":2, "dead":false, "respawn":this.respTime})
+      for (var i = 0; i < ntypeD; i++) {
     }
   }
 
-this.germsMove = function(germ, k) {
+  this.germsMove = function(germ, k) {
     //Moving germs by adding their speed
-    //K is for shifting them while cleaning with soap
+    //K is for shifting them while cleaning with soap (k=50)
+    //OR regular motion one step at a time (k=1)
     if (!germ.dead) {
       germ.x += random(-germ.speed, germ.speed)*k
       constrain(germ.x, -w/2, w/2)
@@ -364,19 +384,23 @@ this.germsMove = function(germ, k) {
       constrain(germ.y, -h/2, h/2)
     }
   }
+
   this.germKilled = function(germ,dim) {
+    //Check if it has been killed by cleaning in the current frame
     // if already dead and it is time to return
     if(germ.respawn==0){
       germ.dead = false
       germ.respawn = this.respTime
     }
-
+    //Check if mouse is hover the germ
     var killing = dist(mouseX, mouseY, oX+germ.x, oY+germ.y)
     if (killing<dim) {
       if (tool=="soap") {
+        //Soap doesn't kill anybody just help wiping them around
         this.germsMove(germ, 50)
       }
       if (tool=="ammo") {
+        //Ammonia kills just certain types of germs, the Proteo, one of the most common
         console.log(germ.types);
         if(germ.types=="d"){
           germ.dead = true
@@ -384,6 +408,8 @@ this.germsMove = function(germ, k) {
       }
       if(tool == "soda") {
         if(germ.types=="d"){
+          //Vinegar&Soda kills the Proteo, likewise Ammonia,
+          //but it is less effective, after testing we choose a 1:2 probability
           console.log(germ.types);
           if (random(0,1)>0.5) {
             germ.dead = true
@@ -391,6 +417,7 @@ this.germsMove = function(germ, k) {
         }
       }
       if(tool == "alkohol") {
+        //Alcohol is supereffective
           germ.dead = true
       }
     }
@@ -398,54 +425,66 @@ this.germsMove = function(germ, k) {
   }
 
   this.show = function(oX, oy, tilt, siz, move) {
+    //Print the capture as a background on the offscreen buffer
     sw.image(capture)
+    // for every germ in the collection
     for(var germ of this.germs) {
-
+      //Move them if it is alive
       if(move&&(!germ.dead)){
         this.germsMove(germ, 1)
       }
 
-      var dim = 5
-      var col = ''
+      // Choose picture and dimension according to type
+      var picture
       switch (germ.types) {
         case "a":
         dim = this.dimType[0]
-        col = 'black'
+        picture = imgA
         break;
         /****/
         case "b":
         dim = this.dimType[1]
-        col = 'blue'
+        picture = imgB
         break;
         /****/
         case "c":
         dim = this.dimType[2]
-        col = 'green'
+        picture = imgC
         break;
         /****/
         case "d":
         dim = this.dimType[3]
-        col = 'yellowGreen'
+        picture = imgD
         break;
         default:
       }
+
+      // Check if it has been just been killed
       this.germKilled(germ, dim)
-      // sw.scale(1, 1)
-      dim *= siz
 
       if (!germ.dead) {
-        push()
-          sw.fill(col)
-          sw.ellipse(oX + germ.x, oy+germ.y,dim, dim*tilt)
-        pop()
+        sw.push()
+          //Translate on the marker position
+          sw.translate(oX + germ.x, oy+germ.y)
+          //Add a random orientation
+          var rotF = PI/12
+          sw.rotate(random(-rotF, rotF))
+          //Add the tilting effects with factor from myDetector
+          sw.scale(siz, siz*tilt)
+          sw.tint(255, 255)
+          sw.image(picture, 0, 0, dim, dim)
+        sw.pop()
       } else {
-        push()
-          sw.fill(150, 150)
-          sw.ellipse(oX + germ.x, oy+germ.y,dim, dim*tilt)
-        pop()
+        //transparent and still if it is dead,
+        //detergent don't remove germs but melt their membranes
+        sw.push()
+          sw.translate(oX + germ.x, oy+germ.y)
+          sw.scale(siz, siz*tilt)
+          sw.tint(255,50)
+          sw.image(picture, 0, 0, dim, dim)
+        sw.pop()
         germ.respawn--
       }
-
     }
     move = false
   }
@@ -454,17 +493,11 @@ this.germsMove = function(germ, k) {
 
 function myDetector() {
   canvas.changed = true;
-  var thresholdAmount = 128; //select('#thresholdAmount').value() * 255 / 100;
+  var thresholdAmount = 128;
   detected = detector.detectMarkerLite(raster, thresholdAmount);
   for (var i = 0; i < detected; i++) {
-    // console.log("detected ", i);
-
-    // read data from the marker
-    // var id = detector.getIdMarkerData(i);
-
     // get the transformation for this marker
     detector.getTransformMatrix(i, resultMat);
-    // detector.getTransformMatrix(0, resultMat);
 
     // convert the transformation to account for our camera
     var mat = resultMat;
@@ -482,7 +515,6 @@ function myDetector() {
       vec4.create(q, -q, 0, 1),
       vec4.create(q, q, 0, 1),
       vec4.create(-q, q, 0, 1),
-      //vec4.create(0, 0, -2*q, 1) // poke up
     ];
 
     // convert that set of vertices from object space to screen space
@@ -494,6 +526,7 @@ function myDetector() {
       v[1] = -v[1] * h2 / v[3] + h2;
     });
 
+    // Marker position for ebugging
     noStroke();
     fill(0, millis() % 255);
     beginShape();
@@ -502,19 +535,19 @@ function myDetector() {
     });
     endShape();
 
-
+    //First vertex X and Y for positioning
     oX  = verts[0][0]
     oY = verts[0][1]
-    // console.log(verts[0][0]-verts[1][0]);
+
+    //A scale factor proportional to the area for the tilting
     var siz = map(abs(verts[0][0]-verts[1][0]), 20, 100, 0.1, 2)
     var tilt = map(abs(verts[1][1]-verts[2][1]), 20, 100, 0.3,1)
-    swarm.show(oX, oY, tilt, siz, true)
-    swimage = image(sw)
 
-    push()
-    // fill('orange')
-    // rect(oX,oY, siz,siz)
-    pop()
+    //Show the germs when the marker is detected, and enable cleaning
+    swarm.show(oX, oY, tilt, siz, true)
+    //Show the offscreen buffer with germs and interaction
+    image(sw, 0,0,w,h*2.15);
+
   }
 }
 
@@ -527,30 +560,3 @@ function windowResized() {
   h = windowHeight
   space = unit * 3
 }
-
-//to paste in draw
-// push()
-//   translate(0,0,-100)
-//   pg.image(capture)
-//   texture(pg)
-//   plane(w,h)
-// pop()
-
-// push()
-// rotateX(PI/1.2)  //1.7
-// swarm.show()
-// var l = 200
-// texture(sw)
-// plane(l,l)
-// pop()
-
-// var t = 0
-// function mousePressed() {
-//     var tools = ['soap','soda','alkohol','ammo']
-//     tool = tools[t]
-//     t++
-//     if (t>3) {
-//       t=0
-//     }
-//     console.log(tool);
-// }
