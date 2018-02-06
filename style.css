@@ -1,0 +1,88 @@
+html, body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+ button{   color: transparent; opacity: 1;
+  /* put the height and width of your image here */
+  width: 20%;
+height: 20%;
+  border: none;}
+button span {
+  display: none;
+}
+
+.scan {
+ background: 	url(assets/scan.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 30%;
+	height: 20%;
+}
+.logo {
+ background: 	url(assets/logo.png)  no-repeat;
+background-size: 100% 100%;
+width: 100%;	
+	height: 10%;
+}
+.about {
+ background: 	url(assets/about.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 30%;
+	height: 20%;
+}
+.load {
+ background: 	url(assets/load2.png)  no-repeat;
+background-size: 100% 100%;	
+}
+
+.ammo {
+ background: 	url(assets/ammo.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 25%;
+}
+.vinegar {
+ background: 	url(assets/vinegar.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 25%;
+}
+.soap {
+ background: 	url(assets/soap.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 25%;
+}
+.alc {
+ background: 	url(assets/alc.png)  no-repeat;
+background-size: 100% 100%;	
+	width: 25%;
+}
+.tools {
+ background: 	url(assets/tools.png)  no-repeat;
+background-size: 100% 100%;	
+width:25%;	
+height: 10%;
+}
+
+.germbutton {
+ background: 	url(assets/tools2.png)  no-repeat;
+background-size: 100% 100%;	
+width:25%;
+	height: 10%;
+}
+.left {
+ background: 	url(assets/left.png)  no-repeat;
+background-size: 100% 100%;	
+width:10%;
+	height: 8%;
+}
+.right {
+ background: 	url(assets/right.png)  no-repeat;
+background-size: 100% 100%;	
+width:10%;
+	height: 8%;
+}
+.backtocam {
+ background: 	url(assets/back.png)  no-repeat;
+background-size: 100% 100%;	
+width:10%;
+	height: 8%;
+}
