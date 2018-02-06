@@ -388,7 +388,7 @@ function Swarm() {
     }
     //Bacter
     //2% average presence in indoor spaces
-    var ntypeC = this.nGerms*0.05
+    var ntypeC = this.nGerms*0.10
     for (var i = 0; i < ntypeC; i++) {
       this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"c", "speed":1, "dead":false, "respawn":this.respTime})
     }
