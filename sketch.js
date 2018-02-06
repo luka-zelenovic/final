@@ -14,15 +14,17 @@ var index = 0;
 var lala;
 var logo;
 var soaptxt;
+
 var germin;
 var w = 0,
     h = 0;
 var raster, param, pmat, resultMat, detector;
 
-var pg, sw
+var pg, sw, swimage
 var wpg = 0
 var hpg = 0
 
+var oX,oY
 var swarm
 
 var angle = 0
@@ -162,16 +164,15 @@ image(bg,0,0,windowWidth, windowHeight);
 function start() {
 
 image(bg,0,0,windowWidth, windowHeight);
-
+image(logo,width*.35, height/50, width*.3, height/5);
   tool="";
 
-  button.position(width*.35, height/3);
-  
+  button.position(width*.35, height/2.2);
 
-  input.position(width*.35, height/3*2);
+  input.position(width*.35, height* .72)
 
 
-  back.position(0, height/10);
+   back.position(0, height/3.50);
   camon = false;
   
 
@@ -323,75 +324,128 @@ function left1() {
  }
 
 function Swarm() {
-  this.nGerms = 10
+  this.nGerms = 100
   this.germs = []
   this.dimType = [10, 15, 24, 20]
+  this.respTime = 100
+  this.boundW = w*0.45
+  this.boundH = h*0.45
 
   this.populate = function() {
-    var boundW = w*0.45
-    var boundH = h*0.45
+    //Actino
     var ntypeA = this.nGerms*0.45
     for (var i = 0; i < ntypeA; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"a", "speed":5})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"a", "speed":5, "dead":false, "respawn":this.respTime})
     }
+    //Firmic
     var ntypeB = this.nGerms*0.15
     for (var i = 0; i < ntypeB; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"b", "speed":5})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"b", "speed":5, "dead":false, "respawn":this.respTime})
     }
+    //Bacter
     var ntypeC = this.nGerms*0.02
     for (var i = 0; i < ntypeC; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"c", "speed":5})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"c", "speed":5, "dead":false, "respawn":this.respTime})
     }
+    //Proteo
     var ntypeD = this.nGerms*0.38
     for (var i = 0; i < ntypeD; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"d", "speed":5})
+      this.germs.push({"x":random(-this.boundW, this.boundW), "y":random(-this.boundH, this.boundH), "types":"d", "speed":5, "dead":false, "respawn":this.respTime})
     }
- }
- this.germsMove = function(germ) {
-   germ.x += random(-germ.speed, germ.speed)
-   constrain(germ.x, -w/2, w/2)
-   germ.y += random(-germ.speed, germ.speed)
-   constrain(germ.y, -h/2, h/2)
- }
+  }
 
-  this.show = function(ox, oy, tilt, siz, move) {
+this.germsMove = function(germ, k) {
+    //Moving germs by adding their speed
+    //K is for shifting them while cleaning with soap
+    if (!germ.dead) {
+      germ.x += random(-germ.speed, germ.speed)*k
+      constrain(germ.x, -w/2, w/2)
+      germ.y += random(-germ.speed, germ.speed)*k
+      constrain(germ.y, -h/2, h/2)
+    }
+  }
+  this.germKilled = function(germ,dim) {
+    // if already dead and it is time to return
+    if(germ.respawn==0){
+      germ.dead = false
+      germ.respawn = this.respTime
+    }
+
+    var killing = dist(mouseX, mouseY, oX+germ.x, oY+germ.y)
+    if (killing<dim) {
+      if (tool=="soap") {
+        this.germsMove(germ, 50)
+      }
+      if (tool=="ammo") {
+        console.log(germ.types);
+        if(germ.types=="d"){
+          germ.dead = true
+        }
+      }
+      if(tool == "soda") {
+        if(germ.types=="d"){
+          console.log(germ.types);
+          if (random(0,1)>0.5) {
+            germ.dead = true
+          }
+        }
+      }
+      if(tool == "alkohol") {
+          germ.dead = true
+      }
+    }
+    // germ.dead = true
+  }
+
+  this.show = function(oX, oy, tilt, siz, move) {
     sw.image(capture)
     for(var germ of this.germs) {
-      if(move){
-        this.germsMove(germ)
+
+      if(move&&(!germ.dead)){
+        this.germsMove(germ, 1)
       }
 
       var dim = 5
       var col = ''
       switch (germ.types) {
         case "a":
-          dim = this.dimType[0]
-          col = 'black'
+        dim = this.dimType[0]
+        col = 'black'
         break;
         /****/
         case "b":
-          dim = this.dimType[1]
-          col = 'blue'
+        dim = this.dimType[1]
+        col = 'blue'
         break;
         /****/
         case "c":
-          dim = this.dimType[2]
-          col = 'green'
+        dim = this.dimType[2]
+        col = 'green'
         break;
         /****/
         case "d":
-          dim = this.dimType[3]
-          col = 'yellowGreen'
+        dim = this.dimType[3]
+        col = 'yellowGreen'
         break;
         default:
       }
-      push()
-      sw.scale(1, 1)
-      console.log(tilt);
+      this.germKilled(germ, dim)
+      // sw.scale(1, 1)
       dim *= siz
-      sw.fill(col)
-      sw.ellipse(ox + germ.x, oy+germ.y,dim, dim*tilt)
-      pop()
+
+      if (!germ.dead) {
+        push()
+          sw.fill(col)
+          sw.ellipse(oX + germ.x, oy+germ.y,dim, dim*tilt)
+        pop()
+      } else {
+        push()
+          sw.fill(150, 150)
+          sw.ellipse(oX + germ.x, oy+germ.y,dim, dim*tilt)
+        pop()
+        germ.respawn--
+      }
+
     }
     move = false
   }
@@ -405,62 +459,62 @@ function myDetector() {
   for (var i = 0; i < detected; i++) {
     // console.log("detected ", i);
 
-      // read data from the marker
-      // var id = detector.getIdMarkerData(i);
+    // read data from the marker
+    // var id = detector.getIdMarkerData(i);
 
-      // get the transformation for this marker
-      detector.getTransformMatrix(i, resultMat);
-      // detector.getTransformMatrix(0, resultMat);
+    // get the transformation for this marker
+    detector.getTransformMatrix(i, resultMat);
+    // detector.getTransformMatrix(0, resultMat);
 
-      // convert the transformation to account for our camera
-      var mat = resultMat;
-      var cm = mat4.create();
-      cm[0] = mat.m00, cm[1] = -mat.m10, cm[2] = mat.m20, cm[3] = 0;
-      cm[4] = mat.m01, cm[5] = -mat.m11, cm[6] = mat.m21, cm[7] = 0;
-      cm[8] = -mat.m02, cm[9] = mat.m12, cm[10] = -mat.m22, cm[11] = 0;
-      cm[12] = mat.m03, cm[13] = -mat.m13, cm[14] = mat.m23, cm[15] = 1;
-      mat4.multiply(pmat, cm, cm);
+    // convert the transformation to account for our camera
+    var mat = resultMat;
+    var cm = mat4.create();
+    cm[0] = mat.m00, cm[1] = -mat.m10, cm[2] = mat.m20, cm[3] = 0;
+    cm[4] = mat.m01, cm[5] = -mat.m11, cm[6] = mat.m21, cm[7] = 0;
+    cm[8] = -mat.m02, cm[9] = mat.m12, cm[10] = -mat.m22, cm[11] = 0;
+    cm[12] = mat.m03, cm[13] = -mat.m13, cm[14] = mat.m23, cm[15] = 1;
+    mat4.multiply(pmat, cm, cm);
 
-      // define a set of 3d vertices
-      var q = 1;
-      var verts = [
-          vec4.create(-q, -q, 0, 1),
-          vec4.create(q, -q, 0, 1),
-          vec4.create(q, q, 0, 1),
-          vec4.create(-q, q, 0, 1),
-        //vec4.create(0, 0, -2*q, 1) // poke up
-      ];
+    // define a set of 3d vertices
+    var q = 1;
+    var verts = [
+      vec4.create(-q, -q, 0, 1),
+      vec4.create(q, -q, 0, 1),
+      vec4.create(q, q, 0, 1),
+      vec4.create(-q, q, 0, 1),
+      //vec4.create(0, 0, -2*q, 1) // poke up
+    ];
 
-      // convert that set of vertices from object space to screen space
-      var w2 = width / 2,
-          h2 = height / 2;
-      verts.forEach(function (v) {
-          mat4.multiplyVec4(cm, v);
-          v[0] = v[0] * w2 / v[3] + w2;
-          v[1] = -v[1] * h2 / v[3] + h2;
-      });
+    // convert that set of vertices from object space to screen space
+    var w2 = width / 2,
+    h2 = height / 2;
+    verts.forEach(function (v) {
+      mat4.multiplyVec4(cm, v);
+      v[0] = v[0] * w2 / v[3] + w2;
+      v[1] = -v[1] * h2 / v[3] + h2;
+    });
 
-      noStroke();
-      fill(0, millis() % 255);
-      beginShape();
-      verts.forEach(function (v) {
-          vertex(v[0], v[1]);
-      });
-      endShape();
+    noStroke();
+    fill(0, millis() % 255);
+    beginShape();
+    verts.forEach(function (v) {
+      vertex(v[0], v[1]);
+    });
+    endShape();
 
 
-      oX  = verts[0][0]
-      oY = verts[0][1]
-      // console.log(verts[0][0]-verts[1][0]);
-      var siz = map(abs(verts[0][0]-verts[1][0]), 20, 100, 0.1, 2)
-      var tilt = map(abs(verts[1][1]-verts[2][1]), 20, 100, 0.3,1)
-      swarm.show(oX, oY, tilt, siz, true)
-      image(sw)
+    oX  = verts[0][0]
+    oY = verts[0][1]
+    // console.log(verts[0][0]-verts[1][0]);
+    var siz = map(abs(verts[0][0]-verts[1][0]), 20, 100, 0.1, 2)
+    var tilt = map(abs(verts[1][1]-verts[2][1]), 20, 100, 0.3,1)
+    swarm.show(oX, oY, tilt, siz, true)
+    swimage = image(sw)
 
-      push()
-      // fill('orange')
-      // rect(oX,oY, siz,siz)
-      pop()
+    push()
+    // fill('orange')
+    // rect(oX,oY, siz,siz)
+    pop()
   }
 }
 
@@ -469,6 +523,8 @@ function windowResized() {
 
   //Update layout variable to adapt the size of the elements
   unit = windowWidth / 100
+  w = windowWidth
+  h = windowHeight
   space = unit * 3
 }
 
@@ -487,3 +543,14 @@ function windowResized() {
 // texture(sw)
 // plane(l,l)
 // pop()
+
+// var t = 0
+// function mousePressed() {
+//     var tools = ['soap','soda','alkohol','ammo']
+//     tool = tools[t]
+//     t++
+//     if (t>3) {
+//       t=0
+//     }
+//     console.log(tool);
+// }
