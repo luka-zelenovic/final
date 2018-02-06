@@ -108,11 +108,11 @@ function setup() {
   back.class('logo');
 	    labout = createButton('info');
   labout.position(-width*.35, height* .72);
-  labout.mousePressed(left2);
+  labout.touchEnded(left2);
   labout.class('left');
   rabout = createButton('logo');
   rabout.position(-10000, height/3.50);
-  rabout.mousePressed(right2);
+  rabout.touchEnded(right2);
   rabout.class('right');
   
 }
