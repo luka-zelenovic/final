@@ -6,16 +6,16 @@ var camon = false;
 var binfo = false; 
 var bg;
 var load;
-var aboutus;
 var alctxt;
 var ammotxt;
 var sodatxt;
 var bac =[];
 var index = 0;
-var lala;
 var logo;
 var soaptxt;
-
+var about =[];
+var aindex = 0;
+var left2, right2;
 var imgA, imgB, imgC, imgD;
 
 var germin;
@@ -33,14 +33,17 @@ var swarm
 var angle = 0
 
 function preload() {
-imgA = loadImage("assets/spritea.png");
-  imgB = loadImage("assets/spritef.png");
-  imgC = loadImage("assets/spriteb.png");
-  imgD = loadImage("assets/spritep.png");
+	imgA = loadImage("assets/spritea.png");
+	imgB = loadImage("assets/spritef.png");
+	imgC = loadImage("assets/spriteb.png");
+	imgD = loadImage("assets/spritep.png");
+	
+	about[1] = loadImage("assets/howto.png");
+	about[2]  = loadImage("assets/marker.png");
+	about[0]  = loadImage('assets/aboutus.png');
 	
 	logo = loadImage('assets/top.png');
   	bg = loadImage('assets/bg.png');
-	aboutus = loadImage('assets/aboutus.png');
 	alctxt =loadImage("assets/alcico.png");
 	ammotxt =loadImage("assets/ammoico.png");
 	sodatxt =loadImage("assets/sodaico.png");
@@ -103,9 +106,16 @@ function setup() {
   back.position(0, height/3.50);
   back.mousePressed(start);
   back.class('logo');
-	
+	    labout = createButton('info');
+  labout.position(-width*.35, height* .72);
+  labout.mousePressed(left2);
+  labout.class('left');
+  rabout = createButton('logo');
+  rabout.position(-10000, height/3.50);
+  rabout.mousePressed(right2);
+  rabout.class('right');
+  
 }
-
 
 function draw() {
   if (camon === true) {
@@ -156,20 +166,37 @@ function draw() {
 
 
 function info() {
-image(bg,0,0,windowWidth, windowHeight);
+
+  image(bg,0,0,windowWidth, windowHeight);
   button.position(-10000,0);
   input.position(-10000,0);
- back.position(0, height/15);
-  	
-  image(aboutus, width*0.1,height/4, width*.8, height*.7);
-    
+  back.position(0, height/15);
+  image(about[aindex], width*0.1,height/4, width*.8, height*.7 );
+	  rabout.position(width-width/10, height*.6);
+		labout.position(width/400, height*.6);
+
+}
+
+function right2() {
+   aindex = aindex + 1;
+  if (aindex>2) {
+	  aindex = 0;
+  }
+	info();
+}
+function left2() {
+    aindex = aindex - 1;
+	if (aindex<0) {
+	  aindex = 2;
+  }
+	info();
 }
 
 
 
-
 function start() {
-
+ rabout.position(-10000, height/3.50);
+  labout.position(-width*.35, height* .72);
 image(bg,0,0,windowWidth, windowHeight);
 image(logo,width*.35, height/50, width*.3, height/5);
   tool="";
@@ -223,7 +250,7 @@ back.position(0, height/80);
 }
 
 function germinfo() {
-	counterimg = 1;
+
   back.position(-5000,0);
  
     tool="";
