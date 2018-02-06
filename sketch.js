@@ -121,18 +121,18 @@ function draw() {
 		    break;
 		
 			case "ammo":image1=ammotxt;
-			image(image1,mouseX, mouseY,width/16,height/6);
+			image(image1,mouseX, mouseY,width/8,height/6);
 				break;
 
 			case "soda":image1=sodatxt;
-			image(image1,mouseX, mouseY,width/16,height/6);
+			image(image1,mouseX, mouseY,width/8,height/6);
 			break;
 			case "soap":image1=soaptxt;
-			image(image1,mouseX, mouseY,width/12,height/12);
+			image(image1,mouseX, mouseY,width/8,height/12);
 			break;
 				case "alkohol":
 			 image1=alctxt;
-			 	image(image1,mouseX, mouseY,width/22,height/6);
+			 	image(image1,mouseX, mouseY,width/12,height/5);
 					break;
 			default: tool= "";
 			
@@ -204,11 +204,11 @@ back.position(0, height/80);
   camon = true;
 	
     germb = createButton('germ info');
-      germb.position(0, height-height/10 );
+      germb.position(0, height-height*.15 );
   germb.mousePressed(germinfo);
     germb.class('germbutton');
    choice = createButton('cleaning tools');
-  choice.position(width-width/4, height-height/10 );
+  choice.position(width-width*.3, height-height*.15 );
   choice.mousePressed(choices);
     choice.class('tools');
      
