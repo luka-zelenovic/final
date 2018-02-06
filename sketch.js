@@ -47,7 +47,7 @@ function setup() {
     pixelDensity(1); // this makes the internal p5 canvas smaller
   w = windowWidth
   h = windowHeight
-  createCanvas(w, h);
+  createCanvas(windowWidth, windowHeight);
 
   capture = createCapture(VIDEO);
   capture.size(w, h);
@@ -148,8 +148,8 @@ function draw() {
 
 function info() {
 image(bg,0,0,windowWidth, windowHeight);
-  button.position(-1000,0);
-  input.position(-1000,0);
+  button.position(-10000,0);
+  input.position(-10000,0);
  back.position(0, height/15);
   	
   image(aboutus, width*0.1,height/4, width*.8, height*.7);
@@ -176,8 +176,8 @@ image(bg,0,0,windowWidth, windowHeight);
   
 
 
-    germb.position(-1000,0);
-  choice.position(-1000,0);
+    germb.position(-10000,0);
+  choice.position(-10000,0);
        ammo.position(-width/3*2,height/3 );
      soap.position(-width/2-width/8,height/3 );
      soda.position(-width/2-width/8,height/5 );
@@ -187,17 +187,17 @@ image(bg,0,0,windowWidth, windowHeight);
 
 function cam1() {
 	 left = createButton('left');
-	  left.mousePressed(left1);
+	  left.touchStarted(left1);
     left.class('left');
 	 right = createButton('right');
-	  right.mousePressed(right1);
+	  right.touchStarted(right1);
     right.class('right');
 	backttocam = createButton('backtocam');
-  backttocam.position(-1000,0);
+  backttocam.position(-10000,0);
 	 backttocam.mousePressed(backtocam1);
 	backttocam.class('backtocam');
-	left.position(-1000,0);
-	right.position(-1000,0);
+	left.position(-10000,0);
+	right.position(-10000,0);
 button.position(-width, height/80);
 input.position(-width*3, height/80);
 back.position(0, height/80);
@@ -216,7 +216,7 @@ back.position(0, height/80);
 
 function germinfo() {
 	counterimg = 1;
-  back.position(-1000,0);
+  back.position(-5000,0);
  
     tool="";
   
@@ -242,9 +242,9 @@ function germinfo() {
 	
 }
 function backtocam1() {
- 	backttocam.position(-1000,0);
-	left.position(-1000,0);
-	right.position(-1000,0);
+ 	backttocam.position(-10000,0);
+	left.position(-10000,0);
+	right.position(-10000,0);
 	
 	
 	cam1();
@@ -268,7 +268,7 @@ function left1() {
 
 
  function choices() {
-   choice.position(-1000,0);
+   choice.position(-10000,0);
 	  germb.position(-10000, height-height/5 );
    soap = createButton('Soap and water');
   soap.position(width/3-width/10,height/3 );
