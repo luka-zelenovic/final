@@ -58,15 +58,15 @@ background-size: 100% 100%;
 .tools {
  background: 	url(assets/tools.png)  no-repeat;
 background-size: 100% 100%;	
-width:25%;	
-height: 10%;
+width:30%;	
+height: 15%;
 }
 
 .germbutton {
  background: 	url(assets/tools2.png)  no-repeat;
 background-size: 100% 100%;	
-width:25%;
-	height: 10%;
+width:30%;
+	height: 15%;
 }
 .left {
  background: 	url(assets/left.png)  no-repeat;
