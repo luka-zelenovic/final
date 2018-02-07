@@ -14,6 +14,8 @@ Beside the informational intent we took interactivity for advocating good hygien
 ![Germs](assets/spritea.png) ![Germs](assets/spriteb.png) ![Germs](assets/spriteb.png) 
 ![Germs](assets/spritea.png)  ![Germs](assets/spritef.png) ![Germs](assets/spritep.png) ![Germs](assets/spritef.png) 
 
+![Graf3](assets/graf3.png)
+
 
 ### App structure
 
