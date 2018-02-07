@@ -1,6 +1,9 @@
 # Germoscope
 ## Your mobile is a lens for the Microwords
 
+
+
+
 ### The project
 An interactive simulation of the ecosystem and the effect of cleaning tools enabling access to accurate scientific data through playful education.
 We created **Germoscope** as a visual representation of the presence of bacteria of the spaces we live everyday. Instead of a professional microscope we did it with the help of a commonly used smartphone an simple webapp for greater accessibility. 
@@ -33,6 +36,12 @@ While the concept was pretty straightforward to develope we had to face some com
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
+
+https://www.ncbi.nlm.nih.gov/books/NBK144041/
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC88911/
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2082058/
 
 https://www.mnn.com/health/healthy-spaces/stories/disinfectants-a-guide-to-killing-germs-the-right-way
 
