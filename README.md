@@ -12,8 +12,6 @@ Beside the informational intent we took interactivity for advocating good hygien
 ![Germs](assets/spritea.png)  ![Germs](assets/spritef.png) ![Germs](assets/spritep.png) ![Germs](assets/spritef.png) 
 
 
----
-
 ### App structure
 
 So, we tried to keep the code more concise considering the performance of a JS client-side environment for AR and choose, after many iteration, to use a single object for collecting the germs automatas as an internal array of objects which describe their characteristics and behaviour, according to their type and a small degree of random variation.
