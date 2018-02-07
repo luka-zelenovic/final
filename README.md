@@ -1,16 +1,22 @@
-**Germoscope** is a student project built during the Creative Coding course at the Politecnico di Milano. 
+#Germoscope#
+##Your mobile is a lens for the Microwords##
 
-**About the project:**
+###The project###
+An interactive simulation of the ecosystem and the effect of cleaning tools enabling access to accurate scientific data through playful education.
+We created **Germoscope** as a visual representation of the presence of bacteria of the spaces we live everyday. Instead of a professional microscope we did it with the help of a commonly used smartphone an simple webapp for greater accessibility. 
+First of all we use the word *germ* but actually we focus only on bacteria, bypassing viruses and fungi according to the research  based on actual scientific papers, linked below. We decided to show four main bacteria phylas that are the most common regardless of the type of surface being tested: Actinobacteria, Proteobacteria, Fimicutes and Bacteroidetes.This families are present on eveery type of surfaces and we took an averaged presence percentage for calculating a plausible distribution in our germs population. The single germs have been illustrated an animated taking full account of their nature and peculiarities: shapes, colours, motion and chemical resistance.
+Beside the informational intent we took interactivity for advocating good hygiene practice while debunking some common misconception. These features focuses on cleaning tools efficacy and in particular on four different types of cleaning product as in Soap, Ammonia, Alcohol and Vinegar+Baking Soda, the touchscreen lets us interact with the virtual germs and the response of our inputs teach us: the type of germs they can kill, the strength and the difference between killing and removing germs, which is totally not banal but became clear when you can actually see them!
 
-Germoscope is first of all a simplified, digital simulation of a microscope. We created “Germoscope” because we wanted a visual representation of the presence of bacteria on the surfaces of everyday. We wanted to do it with the help of a commonly used smartphone instead of a professional microscope. In our work we use the word “germ” but actually we focus only on bacteria, bypassing viruses and fungi. According to the research on which theoretical basis of our app is built. We decided to show four main bacteria phylas that are the most common regardless of the type of surface being tested: Actinobacteria, Proteobacteria, Fimicutes and Bacteroidetes. We also chose bacteria because of the part of the project referring to antibacterial cleaning products. This part of the project focuses on cleaning tools and the way they remove bacteria. We choose four different types of cleaning product (Soap, Ammonia, Alcohol and Vinegar+Baking Soda) to show the differences between them and to understand better the way how they remove/ kill bacteria. 
+###App structure###
 
-
+So, we tried to keep the code more concise considering the performance of a JS client-side environment for AR and choose, after many iteration, to use a single object for collecting the germs automatas as an internal array of objects which describe their characteristics and behaviour, according to their type and a small degree of random variation.
+It also encapsulate the the function that manage the whole ecosystem life is its normal activities and under cleaning tools attacks. It generates an offscreen buffer (P5.Graphics), for a size greater then the screen that enable a wide exploration of the tracked surfaces. Finally the marvellous [jsARtoolkit](https://artoolkit.github.io/jsartoolkit5/), a js port from ARtoolkit in C++, detect the marker and return an array with the coordinates of its square vertex, then the position and area of the marker is used to calculate a factor for translating the layer and scaling the single germs.
 
 ![Graf2](/assets/graf2.png)
 
 
 
-
+###Problem Solving###
 
 
 
@@ -25,6 +31,10 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3223236/
 
 https://www.mnn.com/health/healthy-spaces/stories/disinfectants-a-guide-to-killing-germs-the-right-way
+
+
+Student project for the Creative Coding 2017 studio
+at the Politecnico di Milano. 
 
 **Team members:**
 Luka Zelenovic
